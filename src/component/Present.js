@@ -1,6 +1,6 @@
 import { Presentation, Slide, Text, Shape } from "react-pptx";
 import Preview from "react-pptx/preview";
-import React, { useRef, useState, useEffect, createRef } from "react";
+import React, { useRef, createRef } from "react";
 
 export default function Present(props) {
   let data = JSON.parse(localStorage.getItem("present"));

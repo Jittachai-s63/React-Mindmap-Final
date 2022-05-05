@@ -1,5 +1,5 @@
 import pptxgen from "pptxgenjs";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Select(props) {
@@ -8,9 +8,14 @@ export default function Select(props) {
   let Allnode = data.Allnode;
   let Root = data.Root;
   let Roottemp = {};
+  let selitem = [];
 
   const [checkedState, setCheckedState] = useState(
     new Array(Root.child.length).fill(true)
+  );
+
+  const [orderstate, setOrderState] = useState(
+    Array.from(Array(Root.child.length).keys())
   );
 
   const handleOnChange = (position) => {
@@ -21,12 +26,12 @@ export default function Select(props) {
     setCheckedState(updatedCheckedState);
   };
 
-  let checklist = [];
+  let itemlist = [];
   for (let i = 0; i < Root.child.length; i++) {
     let next = Root.child[i];
     for (let j = 0; j < Allnode.length; j++) {
       if (next === Allnode[j].key) {
-        checklist.push(Allnode[j].topic);
+        itemlist.push(Allnode[j].topic);
         break;
       }
     }
@@ -173,6 +178,21 @@ export default function Select(props) {
     pres.writeFile({ fileName: Roottemp.topic + ".pptx" });
   };
 
+  const getselect = () => {
+    let temp = [];
+    for (let i = 0; i < checkedState.length; i++) {
+      if (checkedState[i] == true) {
+        for (let j = 0; j < Allnode.length; j++) {
+          if (Root.child[i] === Allnode[j].key) {
+            temp.push(Allnode[j].topic);
+            break;
+          }
+        }
+      }
+    }
+    selitem = [...temp];
+  };
+
   const exportsecelcslide = () => {
     let temp = [];
     Roottemp = { ...Root };
@@ -201,10 +221,10 @@ export default function Select(props) {
 
   return (
     <div>
-      <h1>Select export slide</h1>
+      <h1>Select topic export slide</h1>
       <h2>{Root.topic}</h2>
       <ul className="slide-list">
-        {checklist.map((topic, index) => {
+        {itemlist.map((topic, index) => {
           return (
             <li key={index}>
               <div className="toppings-list-item">
@@ -224,6 +244,30 @@ export default function Select(props) {
           );
         })}
       </ul>
+      <div>
+        <h1>Select order export slide</h1>
+        {getselect()}
+        <ul>
+          {selitem.map((topic, index) => {
+            return (
+              <li key={index}>
+                <div className="toppings-list-item">
+                  <div className="left-section">
+                    <input
+                      type="number"
+                      id={`custom-checkbox-${index}`}
+                      name={topic}
+                      value={index + 1}
+                      //onChange={() => handleOnChange(index)}
+                    />
+                    <label htmlFor={`custom-checkbox-${index}`}>{topic}</label>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       <div>
         <button onClick={exportsecelcslide}>Export</button>
         <Link

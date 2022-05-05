@@ -2,14 +2,11 @@ import cx from "classnames";
 import { iconClassName } from "@blink-mind/renderer-react";
 import { Menu, MenuDivider, MenuItem, Popover } from "@blueprintjs/core";
 import React from "react";
-import pptxgen from "pptxgenjs";
 import { downloadFile } from "../../utils";
-import Popup from "reactjs-popup";
 import { Link } from "react-router-dom";
 import "./modal.css";
 
 export function ToolbarItemExport(props) {
-  let pres = new pptxgen();
   let Allnode = [];
   let Root = { topic: "", child: [] };
 
