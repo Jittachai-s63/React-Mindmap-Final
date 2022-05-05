@@ -7,6 +7,11 @@ export default function Select(props) {
   let data = JSON.parse(localStorage.getItem("selectpresent"));
   let Allnode = data.Allnode;
   let Root = data.Root;
+  let Roottemp = {};
+
+  const [checkedState, setCheckedState] = useState(
+    new Array(Root.child.length).fill(true)
+  );
 
   const handleOnChange = (position) => {
     const updatedCheckedState = checkedState.map((item, index) =>
@@ -145,42 +150,43 @@ export default function Select(props) {
     }
   };
 
-  const [checkedState, setCheckedState] = useState(
-    new Array(Root.child.length).fill(true)
-  );
-
   const createslide = () => {
     let slide = pres.addSlide();
-    slide.addText(Root.topic, {
+    slide.addText(Roottemp.topic, {
       x: 1.5,
       y: 2.5,
       color: "#363636",
       fill: { color: "F1F1F1" },
       align: pres.AlignH.center,
     });
-    DFS(Root, Allnode);
-    pres.writeFile({ fileName: Root.topic + ".pptx" });
+    DFS(Roottemp, Allnode);
+    pres.writeFile({ fileName: Roottemp.topic + ".pptx" });
   };
 
   const exportsecelcslide = () => {
     let temp = [];
+    Roottemp = { ...Root };
     for (let i = 0; i < Root.child.length; i++) {
       if (checkedState[i] == true) {
         temp.push(Root.child[i]);
       }
     }
-    Root.child = temp;
+    Roottemp.child = temp;
     createslide();
   };
 
   const previewslide = () => {
     let temp = [];
+    Roottemp = { ...Root };
+    console.log(Root);
     for (let i = 0; i < Root.child.length; i++) {
       if (checkedState[i] == true) {
         temp.push(Root.child[i]);
       }
     }
-    Root.child = temp;
+    Roottemp.child = temp;
+    console.log(Root);
+    console.log(Roottemp);
   };
 
   return (
@@ -217,10 +223,9 @@ export default function Select(props) {
           onClick={() =>
             localStorage.setItem(
               "present",
-              JSON.stringify({ Root: Root, Allnode: Allnode })
+              JSON.stringify({ Root: Roottemp, Allnode: Allnode })
             )
           }
-          state={{ Root: Root, Allnode: Allnode }}
         >
           <button onClick={previewslide}>Preview</button>
         </Link>
