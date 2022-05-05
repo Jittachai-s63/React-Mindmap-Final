@@ -158,8 +158,18 @@ export default function Select(props) {
       color: "#363636",
       fill: { color: "F1F1F1" },
       align: pres.AlignH.center,
+      fontSize: 30,
     });
     DFS(Roottemp, Allnode);
+    let endslide = pres.addSlide();
+    endslide.addText("Thank you", {
+      x: 1.5,
+      y: 2.5,
+      color: "#363636",
+      fill: { color: "F1F1F1" },
+      align: pres.AlignH.center,
+      fontSize: 30,
+    });
     pres.writeFile({ fileName: Roottemp.topic + ".pptx" });
   };
 

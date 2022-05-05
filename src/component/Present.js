@@ -5,38 +5,37 @@ import React, { useRef, useState, useEffect, createRef } from "react";
 export default function Present(props) {
   let data = JSON.parse(localStorage.getItem("present"));
   const temp = [];
-  var k = 0;
+  var runslide = 0;
   var slidearray = [];
 
-  const topic = useRef(null)
+  const topic = useRef(null);
+  const endslide = useRef(null);
 
   const prevslide = async () => {
-    if (k <= 0) {
+    if (runslide <= 0) {
       window.scrollTo({
         top: topic.current.offsetTop,
-      })
+      });
     } else {
-      k--
+      runslide--;
       window.scrollTo({
-        top: temp[k].current.offsetTop,
-      })
-      
-      console.log(k)
+        top: temp[runslide].current.offsetTop,
+      });
     }
-  }
+  };
 
   const nextslide = () => {
-
-    if (k >= slidearray.length) {
-      return
+    if (runslide >= slidearray.length) {
+      window.scrollTo({
+        top: endslide.current.offsetTop,
+      });
     } else {
       window.scrollTo({
-        top: temp[k].current.offsetTop,
-      })
-      k++
-      console.log(k)
+        top: temp[runslide].current.offsetTop,
+      });
+      runslide++;
     }
-  }
+  };
 
   const DFS = async (cur, Allnode, loc) => {
     if (cur.child.length === 0) {
@@ -45,10 +44,10 @@ export default function Present(props) {
       let manytext = false;
       let manybullet;
       let curslide = (
-        <div >
+        <div>
           <Preview>
             <Presentation>
-              <Slide >
+              <Slide>
                 <Text
                   style={{
                     x: 1,
@@ -66,8 +65,11 @@ export default function Present(props) {
                 <Shape
                   type="rect"
                   style={{
-                    x: 0, y: 0, w: 10, h: 0.01,
-                    backgroundColor: "black"
+                    x: 0,
+                    y: 0,
+                    w: 10,
+                    h: 0.01,
+                    backgroundColor: "black",
                   }}
                 />
               </Slide>
@@ -124,8 +126,11 @@ export default function Present(props) {
                   <Shape
                     type="rect"
                     style={{
-                      x: 0, y: 0, w: 10, h: 0.01,
-                      backgroundColor: "black"
+                      x: 0,
+                      y: 0,
+                      w: 10,
+                      h: 0.01,
+                      backgroundColor: "black",
                     }}
                   />
                 </Slide>
@@ -159,8 +164,11 @@ export default function Present(props) {
                   <Shape
                     type="rect"
                     style={{
-                      x: 0, y: 0, w: 10, h: 0.01,
-                      backgroundColor: "black"
+                      x: 0,
+                      y: 0,
+                      w: 10,
+                      h: 0.01,
+                      backgroundColor: "black",
                     }}
                   />
                 </Slide>
@@ -179,29 +187,26 @@ export default function Present(props) {
       }
     }
     if (slidearray) {
-      wfff()
+      wfff();
     }
   };
 
   DFS(data.Root, data.Allnode);
 
   function wfff() {
-    var lada = []
+    var lada = [];
     slidearray.map((x, i) => {
-      lada[i] = createRef()
-      lada = temp
-    })
-    lada[0] = createRef()
+      lada[i] = createRef();
+      lada = temp;
+    });
+    lada[0] = createRef();
   }
-
-
 
   return (
     <div>
-      <div onClick={prevslide} className="Back-button"/>
-      <div onClick={nextslide} className="Next-button"/>
+      <div onClick={prevslide} className="Back-button" />
+      <div onClick={nextslide} className="Next-button" />
       <div>
-        
         <div ref={topic}>
           <Preview>
             <Presentation>
@@ -214,6 +219,7 @@ export default function Present(props) {
                     color: "#363636",
                     fill: { color: "F1F1F1" },
                     align: "center",
+                    fontSize: 30,
                   }}
                 >
                   {data.Root.topic}
@@ -224,10 +230,39 @@ export default function Present(props) {
         </div>
         <div>
           {slidearray.map((x, i) => (
-            <div ref={temp[i]}>
-              {x}
-            </div>
+            <div ref={temp[i]}>{x}</div>
           ))}
+        </div>
+        <div ref={endslide}>
+          <Preview>
+            <Presentation>
+              <Slide>
+                <Text
+                  style={{
+                    x: 2.5,
+                    y: 2.5,
+                    w: 5,
+                    color: "#363636",
+                    fill: { color: "F1F1F1" },
+                    align: "center",
+                    fontSize: 30,
+                  }}
+                >
+                  THANK YOU
+                </Text>
+                <Shape
+                  type="rect"
+                  style={{
+                    x: 0,
+                    y: 0,
+                    w: 10,
+                    h: 0.01,
+                    backgroundColor: "black",
+                  }}
+                />
+              </Slide>
+            </Presentation>
+          </Preview>
         </div>
       </div>
     </div>
