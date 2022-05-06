@@ -61,7 +61,6 @@ export function ToolbarItemExport(props) {
         <div className="bm-toolbar-popover-target" />
         <Menu>
           <MenuItem text="JSON(.json)" onClick={onClickExportJson} />
-          <MenuItem text="IMAGE(.pdf)" />
           <MenuDivider />
           <Link
             to="/selectpresent"

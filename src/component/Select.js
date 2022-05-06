@@ -1,6 +1,7 @@
 import pptxgen from "pptxgenjs";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "./styles.css";
 
 export default function Select(props) {
   let pres = new pptxgen();
@@ -39,7 +40,6 @@ export default function Select(props) {
       index === position ? !item : item
     );
     const updateddisState = disableState.map((item, index) => item);
-    //console.log(updateddisState);
     let run = 0;
     const DFSsearch = async (Root, Allnode, child) => {
       for (let i = 0; i < Root.child.length; i++) {
@@ -247,10 +247,10 @@ export default function Select(props) {
   };
 
   return (
-    <div>
-      <h1>Select topic export slide</h1>
+    <div className="App">
+      <h1>Select Topic Export Slide</h1>
       <h2>{Root.topic}</h2>
-      <ul className="slide-list">
+      <ul className="toppings-list">
         {itemlist.map((topic, index) => {
           return (
             <li key={index}>
@@ -265,39 +265,19 @@ export default function Select(props) {
                     disabled={disableState[index]}
                     onChange={() => handleOnChange(index, topic)}
                   />
-                  <label htmlFor={`custom-checkbox-${index}`}>{topic}</label>
+                  <label>{topic}</label>
                 </div>
               </div>
             </li>
           );
         })}
       </ul>
-      {/* <div>
-        <h1>Select order export slide</h1>
-        {getselect()}
-        <ul>
-          {selitem.map((topic, index) => {
-            return (
-              <li key={index}>
-                <div className="toppings-list-item">
-                  <div className="left-section">
-                    <input
-                      type="number"
-                      id={`custom-checkbox-${index}`}
-                      name={topic}
-                      value={index + 1}
-                      //onChange={() => handleOnChange(index)}
-                    />
-                    <label htmlFor={`custom-checkbox-${index}`}>{topic}</label>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div> */}
-      <div>
-        <button onClick={exportsecelcslide}>Export</button>
+      <br></br>
+      <div className="button-div">
+        <button class="button" onClick={exportsecelcslide}>
+          <span>Export </span>
+        </button>
+
         <Link
           to="/present"
           target="_blank"
@@ -309,7 +289,13 @@ export default function Select(props) {
             )
           }
         >
-          <button onClick={previewslide}>Preview</button>
+          <button
+            class="button"
+            //style="vertical-align:middle"
+            onClick={previewslide}
+          >
+            <span>Preview </span>
+          </button>
         </Link>
       </div>
     </div>
