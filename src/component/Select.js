@@ -2,6 +2,9 @@ import pptxgen from "pptxgenjs";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import Popup from "reactjs-popup";
+import { margin } from "@mui/system";
 
 export default function Select(props) {
   let pres = new pptxgen();
@@ -246,6 +249,10 @@ export default function Select(props) {
     Roottemp.child = temp;
   };
 
+  // const moredetail = (topic) => {
+  //   console.log(topic);
+  // };
+
   return (
     <div className="App">
       <h1>Select Topic Export Slide</h1>
@@ -265,7 +272,36 @@ export default function Select(props) {
                     disabled={disableState[index]}
                     onChange={() => handleOnChange(index, topic)}
                   />
-                  <label>{topic}</label>
+                  {topic.length < 50 ? (
+                    <label>{topic}</label>
+                  ) : (
+                    <>
+                      <label>{topic.slice(0, 50)}... </label>
+
+                      <Popup
+                        trigger={(open) => (
+                          <AddBoxIcon sx={{ fontSize: 20 }}></AddBoxIcon>
+                        )}
+                        position="right center"
+                        closeOnDocumentClick
+                        on="hover"
+                        mouseLeaveDelay={300}
+                        mouseEnterDelay={0}
+                      >
+                        <div
+                          style={{
+                            backgroundColor: "#e9e9e2",
+                            width: 500,
+                            borderRadius: "20px",
+                          }}
+                        >
+                          <div style={{ margin: "15px" }}>
+                            <p>{topic}</p>
+                          </div>
+                        </div>
+                      </Popup>
+                    </>
+                  )}
                 </div>
               </div>
             </li>
