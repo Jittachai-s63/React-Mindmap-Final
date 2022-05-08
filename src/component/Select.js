@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Popup from "reactjs-popup";
-import { margin } from "@mui/system";
 
 export default function Select(props) {
   let pres = new pptxgen();
@@ -16,7 +15,7 @@ export default function Select(props) {
 
   const [itemlist, setitemState] = useState([]);
   const [disableState, setDisableState] = useState([]);
-
+  const [thxslide, setthxState] = useState(true);
   const [checkedState, setCheckedState] = useState([]);
 
   useEffect(() => {
@@ -67,6 +66,10 @@ export default function Select(props) {
     DFSsearch(Root, Allnode, 0);
     setCheckedState(updatedCheckedState);
     setDisableState(updateddisState);
+  };
+
+  const endhandleOnChange = () => {
+    setthxState(!thxslide);
   };
 
   const DFS = async (cur, Allnode) => {
@@ -198,15 +201,18 @@ export default function Select(props) {
       fontSize: 30,
     });
     DFS(Roottemp, newAllnode);
-    let endslide = pres.addSlide();
-    endslide.addText("Thank you", {
-      x: 1.5,
-      y: 2.5,
-      color: "#363636",
-      fill: { color: "F1F1F1" },
-      align: pres.AlignH.center,
-      fontSize: 30,
-    });
+    if (thxslide) {
+      let endslide = pres.addSlide();
+      endslide.addText("Thank you", {
+        x: 1.5,
+        y: 2.5,
+        color: "#363636",
+        fill: { color: "F1F1F1" },
+        align: pres.AlignH.center,
+        fontSize: 30,
+      });
+    }
+
     pres.writeFile({ fileName: Roottemp.topic + ".pptx" });
   };
 
@@ -248,10 +254,6 @@ export default function Select(props) {
     }
     Roottemp.child = temp;
   };
-
-  // const moredetail = (topic) => {
-  //   console.log(topic);
-  // };
 
   return (
     <div className="App">
@@ -307,6 +309,18 @@ export default function Select(props) {
             </li>
           );
         })}
+        <div className="toppings-list-item">
+          <div className="left-section">
+            <input
+              type="checkbox"
+              name="Thank you"
+              value="Thank you"
+              checked={thxslide}
+              onChange={() => endhandleOnChange()}
+            />
+            <label>Thank you</label>
+          </div>
+        </div>
       </ul>
       <br></br>
       <div className="button-div">
@@ -321,15 +335,15 @@ export default function Select(props) {
           onClick={() =>
             localStorage.setItem(
               "present",
-              JSON.stringify({ Root: Roottemp, Allnode: newAllnode })
+              JSON.stringify({
+                Root: Roottemp,
+                Allnode: newAllnode,
+                thx: thxslide,
+              })
             )
           }
         >
-          <button
-            class="button"
-            //style="vertical-align:middle"
-            onClick={previewslide}
-          >
+          <button class="button" onClick={previewslide}>
             <span>Preview </span>
           </button>
         </Link>

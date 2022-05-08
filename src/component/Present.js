@@ -7,7 +7,6 @@ export default function Present(props) {
   const temp = [];
   var runslide = 0;
   var slidearray = [];
-
   const topic = useRef(null);
   const endslide = useRef(null);
 
@@ -233,37 +232,41 @@ export default function Present(props) {
             <div ref={temp[i]}>{x}</div>
           ))}
         </div>
-        <div ref={endslide}>
-          <Preview>
-            <Presentation>
-              <Slide>
-                <Text
-                  style={{
-                    x: 2.5,
-                    y: 2.5,
-                    w: 5,
-                    color: "#363636",
-                    fill: { color: "F1F1F1" },
-                    align: "center",
-                    fontSize: 30,
-                  }}
-                >
-                  THANK YOU
-                </Text>
-                <Shape
-                  type="rect"
-                  style={{
-                    x: 0,
-                    y: 0,
-                    w: 10,
-                    h: 0.01,
-                    backgroundColor: "black",
-                  }}
-                />
-              </Slide>
-            </Presentation>
-          </Preview>
-        </div>
+        {data.thx ? (
+          <div ref={endslide}>
+            <Preview>
+              <Presentation>
+                <Slide>
+                  <Text
+                    style={{
+                      x: 2.5,
+                      y: 2.5,
+                      w: 5,
+                      color: "#363636",
+                      fill: { color: "F1F1F1" },
+                      align: "center",
+                      fontSize: 30,
+                    }}
+                  >
+                    THANK YOU
+                  </Text>
+                  <Shape
+                    type="rect"
+                    style={{
+                      x: 0,
+                      y: 0,
+                      w: 10,
+                      h: 0.01,
+                      backgroundColor: "black",
+                    }}
+                  />
+                </Slide>
+              </Presentation>
+            </Preview>
+          </div>
+        ) : (
+          <div ref={endslide}></div>
+        )}
       </div>
     </div>
   );

@@ -40,11 +40,18 @@ export function ToolbarItemPresent(props) {
   };
 
   return (
-    <Link to="/present"
+    <Link
+      to="/present"
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => localStorage.setItem('present', JSON.stringify({ Root: Root, Allnode: Allnode }))}
-      state={{ Root: Root, Allnode: Allnode }}>
+      onClick={() =>
+        localStorage.setItem(
+          "present",
+          JSON.stringify({ Root: Root, Allnode: Allnode, thx: false })
+        )
+      }
+      state={{ Root: Root, Allnode: Allnode }}
+    >
       <div
         className={cx("bm-toolbar-item", iconClassName("export"))}
         title="Present"
